@@ -1,0 +1,41 @@
+def choose_memo(n,k,d): 
+	""" finding n choose k, returns numerical value for 
+	number of ways to chooose k elements out of n 
+
+	NOW WITH MEMORY, d is my dictionary
+
+	>>> d = {}
+	>>> choose_memo(5,3,d)
+	10
+	>>> choose_memo(1,1,d)
+	1
+	>>> choose_memo(4,2,d)
+	6
+	""" 
+
+	# Base Cases
+	if n == k: 
+		return 1
+	if k == 1: 
+		return n
+	if k > n: 
+		return 0
+
+	# If the item is already in the dictionary return the key (the result of that n choose k)
+	if (n,k) in d: 
+		return d[(n,k)]  
+
+	# Pascal's Equation 
+	n_minus_1_choose_k = choose_memo(n-1,k,d)
+	n_minus_1_choose_k_minus_1 = choose_memo(n-1,k-1,d)
+	return_value = n_minus_1_choose_k + n_minus_1_choose_k_minus_1
+	d[(n,k)] = return_value
+
+	return return_value
+
+if __name__ == "__main__":
+	import doctest 
+	doctest.testmod(verbose=True)
+	d = {} 
+	print choose_memo(50,30,d)
+	

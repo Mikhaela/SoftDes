@@ -1,0 +1,63 @@
+import urllib 
+
+url = "http://www.gutenberg.org/ebooks/730.txt.utf-8"
+
+#Making empty library 
+#Memory is not a good place to put this cache
+#Storage would be better
+#Make it so that you aren't starting from scratch every time with cache 
+
+# cache = {}
+
+# #Memoizing download function 
+# def download_url(url): 
+# 	if url in cache: 
+# 		return chace[url]
+# 	content = urllib.urlopen(url).read()
+# 	cache[url] = content
+# 	return content 
+
+# #How long does this take..?
+# %time content = download_url(url)
+# print len(content)
+
+# Now writing file to disk 
+content = urllib.urlopen(url).read()
+f = open('730.txt','w')
+f.write(content)
+f.close()
+
+print len(content)
+print content
+
+h = {}
+
+for w in content.split():
+	h[w] = h.get(w,0) + 1 
+[w for w, n in h.items() if n > 3]
+
+#Remember: you can't write a dictionary to a file, but you can write a string to a file 
+import pickle 
+x = [2,3, 'str']
+s = pickle.dumps() #dumps = dumb string 
+
+x == pickle.loads(s) #pickle makes something unreadable but this puts it back into a human readable string 
+
+#This opens the file for wpiting, 
+#tries to save something in it 
+#and closes it afterwords 
+
+f = open('historgram', 'w')
+#print f would print || <open file 'historgram', mode 'w' at xxxxxxxx <--- bar code of particular object 
+f.save(h)
+f.close()
+
+
+f2 = open('historgram', 'r')
+h2 = pickle.loads(f2.read())
+f2.close() 
+
+#Why do this? 
+print h == h2 
+print h2
+
